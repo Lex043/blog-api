@@ -3,7 +3,18 @@ import APIError from '../../../helpers';
 import { PostDTO } from '../../../types';
 
 export default class BlogService {
-    async getPost(id: string) {
+    async getPosts() {
+        const post = await Blog.find();
+        if (!post) {
+            throw new APIError({
+                message: `Post does not exists`,
+                code: 400,
+            });
+        }
+        return post;
+    }
+
+    async getPostById(id: string) {
         const post = await Blog.findById(id);
         if (!post) {
             throw new APIError({
