@@ -1,6 +1,5 @@
 import { Response, Request } from 'express';
 import { logger } from '../../../config/logger';
-import { Blog } from '../../../models/blog-model';
 import BlogService from '../services/blog.service';
 
 interface AuthenticatedRequest extends Request {
@@ -12,7 +11,7 @@ const blogService = new BlogService();
 export class BlogController {
     static async getPosts(_req: Request, res: Response) {
         try {
-            const post = await Blog.find();
+            const post = await blogService.getPosts();
             return res.status(200).json({
                 message: 'Posts fetched successfully',
                 data: post,
@@ -26,7 +25,7 @@ export class BlogController {
     static async getPost(req: Request, res: Response) {
         try {
             const { id } = req.params;
-            const post = await blogService.getPost(id);
+            const post = await blogService.getPostById(id);
             return res.status(200).json({
                 message: 'Post fetched successfully',
                 data: post,
